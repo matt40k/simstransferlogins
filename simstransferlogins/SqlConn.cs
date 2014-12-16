@@ -1,14 +1,12 @@
-﻿using System;
-using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 
 namespace SIMS_Transfer_Logins
 {
-    class SqlConn
+    internal class SqlConn
     {
         public SqlConnection connect(string sr, string db, string ur, string ps)
         {
-            SqlConnection sqlConn = new SqlConnection("user id=" + ur + ";" +
+            var sqlConn = new SqlConnection("user id=" + ur + ";" +
                                             "password=" + ps + "; " +
                                             "Trusted_Connection=no; " +
                                             "server=" + sr + "; " +
@@ -20,7 +18,7 @@ namespace SIMS_Transfer_Logins
 
         public SqlConnection connect(string sr, string db)
         {
-            SqlConnection sqlConn = new SqlConnection("Trusted_Connection=yes; " +
+            var sqlConn = new SqlConnection("Trusted_Connection=yes; " +
                                             "server=" + sr + "; " +
                                             "database=" + db + "; " +
                                             "connection timeout=30");

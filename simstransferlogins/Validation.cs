@@ -2,12 +2,12 @@
 
 namespace SIMS_Transfer_Logins
 {
-    class Validation
+    internal class Validation
     {
-        private string serverName = null;
-        private string databaseName = null;
-        private string userName = null;
-        private string passWord = null;
+        private string databaseName;
+        private string passWord;
+        private string serverName;
+        private string userName;
 
         public void Entry(string sr, string db, string ur, string ps)
         {
@@ -19,7 +19,7 @@ namespace SIMS_Transfer_Logins
 
         public bool Run()
         {
-            bool value = true;
+            var value = true;
             if (!servername())
             {
                 Console.WriteLine("No server name supplied");

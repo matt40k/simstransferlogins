@@ -3,35 +3,32 @@ using System.IO;
 
 namespace SIMS_Transfer_Logins
 {
-    class GetServerSettings
+    internal class GetServerSettings
     {
-        private string serverName = null;
-        private string databaseName = null;
-        private string simsDir = null;
+        private string simsDir;
 
-        public string getServer
+        public GetServerSettings()
         {
-            get { return serverName; }
+            getDB = null;
+            getServer = null;
         }
 
-        public string getDB
-        {
-            get { return databaseName; }
-        }
+        public string getServer { get; private set; }
+        public string getDB { get; private set; }
 
         public void Entry()
         {
             simsDir = gatherSIMS();
-            serverName = gatherServer(simsDir);
-            databaseName = gatherDatabase(simsDir);
+            getServer = gatherServer(simsDir);
+            getDB = gatherDatabase(simsDir);
         }
 
         private string gatherSIMS()
         {
-            string simsINI = Path.Combine(Environment.GetEnvironmentVariable("windir"), "sims.ini");
+            var simsINI = Path.Combine(Environment.GetEnvironmentVariable("windir"), "sims.ini");
             if (File.Exists(simsINI))
             {
-                IniFile simsIni = new IniFile(simsINI);
+                var simsIni = new IniFile(simsINI);
                 return simsIni.IniReadValue("Setup", "SIMSDotNetDirectory");
             }
             return null;
@@ -39,10 +36,10 @@ namespace SIMS_Transfer_Logins
 
         private string gatherServer(string simsDir)
         {
-            string connectIni = Path.Combine(simsDir, "connect.ini");
+            var connectIni = Path.Combine(simsDir, "connect.ini");
             if (File.Exists(connectIni))
             {
-                IniFile simsIni = new IniFile(connectIni);
+                var simsIni = new IniFile(connectIni);
                 return simsIni.IniReadValue("SIMSConnection", "ServerName");
             }
             return null;
@@ -50,10 +47,10 @@ namespace SIMS_Transfer_Logins
 
         private string gatherDatabase(string simsDir)
         {
-            string connectIni = Path.Combine(simsDir, "connect.ini");
+            var connectIni = Path.Combine(simsDir, "connect.ini");
             if (File.Exists(connectIni))
             {
-                IniFile simsIni = new IniFile(connectIni);
+                var simsIni = new IniFile(connectIni);
                 return simsIni.IniReadValue("SIMSConnection", "DatabaseName");
             }
             return null;
@@ -61,8 +58,8 @@ namespace SIMS_Transfer_Logins
 
         public void Close()
         {
-            serverName = null;
-            databaseName = null;
+            getServer = null;
+            getDB = null;
             simsDir = null;
         }
     }

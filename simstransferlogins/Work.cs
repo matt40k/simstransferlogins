@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Data;
 using System.Data.SqlClient;
 
 namespace SIMS_Transfer_Logins
 {
-    class Work
+    internal class Work
     {
-        private string serverName = null;
-        private string databaseName = null;
-        private string userName = null;
-        private string passWord = null;
+        private string databaseName;
+        private string passWord;
+        private string serverName;
+        private string userName;
 
         public void Entry(string sr, string db, string ur, string ps)
         {
@@ -29,12 +28,12 @@ namespace SIMS_Transfer_Logins
 
         public bool Run()
         {
-            bool value = true;
-            string query = "sims.db_p_transfer_login";
+            var value = true;
+            var query = "sims.db_p_transfer_login";
 
             try
             {
-                SqlConn Conn = new SqlConn();
+                var Conn = new SqlConn();
                 SqlConnection sqlConn;
 
                 if (passWord == null)
@@ -43,11 +42,14 @@ namespace SIMS_Transfer_Logins
                 }
                 else
                 {
-                    if (userName == null) { userName = "sa"; }
+                    if (userName == null)
+                    {
+                        userName = "sa";
+                    }
                     sqlConn = Conn.connect(serverName, databaseName, userName, passWord);
                 }
 
-                SqlCommand command = new SqlCommand(query, sqlConn);
+                var command = new SqlCommand(query, sqlConn);
                 command.ExecuteNonQuery();
                 Conn.closeConn(sqlConn);
             }
@@ -56,7 +58,7 @@ namespace SIMS_Transfer_Logins
                 value = false;
                 Console.WriteLine(e.Message);
             }
-            
+
             return value;
         }
     }

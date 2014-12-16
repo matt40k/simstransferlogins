@@ -2,18 +2,18 @@
 
 namespace SIMS_Transfer_Logins
 {
-    class Entry
+    internal class Entry
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             string ur = null;
             string ps = null;
             string sr = null;
             string db = null;
 
-            for (int i = 0; i < args.Length; i++)
+            for (var i = 0; i < args.Length; i++)
             {
-                string str = args[i].ToUpper();
+                var str = args[i].ToUpper();
                 if (str.StartsWith("/USER"))
                 {
                     ur = GetParameterValue(args, "/USER");
@@ -33,10 +33,16 @@ namespace SIMS_Transfer_Logins
             }
 
             // Read sims.ini and connect.ini to get servername and databasename - JIC
-            GetServerSettings serverSettings = new GetServerSettings();
+            var serverSettings = new GetServerSettings();
             serverSettings.Entry();
-            if (sr == null) { sr = serverSettings.getServer; }
-            if (db == null) { db = serverSettings.getDB; }
+            if (sr == null)
+            {
+                sr = serverSettings.getServer;
+            }
+            if (db == null)
+            {
+                db = serverSettings.getDB;
+            }
             serverSettings.Close();
 
 #if DEBUG
@@ -47,19 +53,22 @@ namespace SIMS_Transfer_Logins
 #endif
 
             // Check user input
-            Validation valid = new Validation();
+            var valid = new Validation();
             valid.Entry(sr, db, ur, ps);
-            bool validationResults = valid.Run();
+            var validationResults = valid.Run();
             valid.Close();
 
             if (validationResults)
             {
                 // Begin work
-                Work work = new Work();
+                var work = new Work();
                 work.Entry(sr, db, ur, ps);
-                bool result = work.Run();
+                var result = work.Run();
                 work.Close();
-                if (result) { Console.WriteLine("Complete"); }
+                if (result)
+                {
+                    Console.WriteLine("Complete");
+                }
             }
         }
 
@@ -67,9 +76,9 @@ namespace SIMS_Transfer_Logins
         {
             try
             {
-                for (int i = 0; i < commandParameters.Length; i++)
+                for (var i = 0; i < commandParameters.Length; i++)
                 {
-                    string str = commandParameters[i];
+                    var str = commandParameters[i];
                     if (str.ToUpper().StartsWith(parameterName.ToUpper()))
                     {
                         if (parameterName == str)
